@@ -1,0 +1,39 @@
+version: "3.8"
+services:
+  fhir-server:
+    image: dotbase/fhir-server
+    environment:
+      HAPI_DATASOURCE_URL: "jdbc:postgresql://fhir-postgres:5432/hapi_r4"
+      HAPI_DATASOURCE_USERNAME: "${FHIR_DB_USER:-admin}"
+      HAPI_DATASOURCE_PASSWORD: "${FHIR_DB_PASSWORD:-admin}"
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  fhir-postgres:
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: "${FHIR_DB_USER:-admin}"
+      POSTGRES_PASSWORD: "${FHIR_DB_PASSWORD:-admin}"
+      POSTGRES_DB: "hapi_r4"
+    networks:
+      - backend
+    volumes:
+      - fhir-postgres-data:/var/lib/postgresql/data
+    deploy:
+      placement:
+        max_replicas_per_node: 1
+
+networks:
+  backend:
+
+volumes:
+  fhir-postgres-data:
