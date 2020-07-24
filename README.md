@@ -1,8 +1,8 @@
 # Movebase FHIR Server
 FHIR Server for the Movebase infrastructure.
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/dot-base/fhir-server)
-![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/dot-base/fhir-server)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/dot-base/fhir-server)](https://github.com/dot-base/fhir-server/releases)
+[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/dotbase/fhir-server)](https://hub.docker.com/r/dotbase/fhir-server)
 
 
 ## Quick Nav
@@ -15,7 +15,7 @@ Want a FHIR Server that supports profiles established throughout the Movebase pr
 
 ❗ This setup is meant for folks that just want to deploy the Movebase FHIR Server including a database. If you want to deploy an instance of the whole Movebase project see the [central Movebase repository](https://github.com/dot-base/dot-base).
 
-![Docker Build Status](https://img.shields.io/badge/%E2%9D%A4%EF%B8%8F-We%20love%20Docker-blue)
+[![Docker Build Status](https://img.shields.io/badge/%E2%9D%A4%EF%B8%8F-We%20love%20Docker-blue)](https://hub.docker.com/u/dotbase)
 
 ### Requirements
 - [Docker Engine >= v1.13](https://www.docker.com/get-started)
@@ -27,6 +27,7 @@ Want a FHIR Server that supports profiles established throughout the Movebase pr
     ```
 1. Start both, a FHIR Server as well as a database container:
     ```
+    curl https://raw.githubusercontent.com/dot-base/fhir-server/master/docker-compose.yml --output docker-compose.yml
     docker stack deploy -c docker-compose.yml fhir-server
     ```
 1. Set the following environment variables on your production system. We advice auto generating a secure password and choosing a different username than `admin` ;).
