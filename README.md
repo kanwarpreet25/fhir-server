@@ -2,7 +2,7 @@
 FHIR Server for the Movebase infrastructure.
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/dot-base/fhir-server)](https://github.com/dot-base/fhir-server/releases)
-[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/dotbase/fhir-server)](https://hub.docker.com/r/dotbase/fhir-server)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/dot-base/fhir-server/Docker?label=Docker%20Build&logo=Docker)](https://github.com/dot-base/fhir-server/packages/331005)
 
 
 ## Quick Nav
@@ -15,7 +15,7 @@ Want a FHIR Server that supports profiles established throughout the Movebase pr
 
 ❗ This setup is meant for folks that just want to deploy the Movebase FHIR Server including a database. If you want to deploy an instance of the whole Movebase project see the [central Movebase repository](https://github.com/dot-base/dot-base).
 
-[![Docker Build Status](https://img.shields.io/badge/%E2%9D%A4%EF%B8%8F-We%20love%20Docker-blue)](https://hub.docker.com/u/dotbase)
+[![Docker Build Status](https://img.shields.io/badge/We%20love-Docker-blue?style=flat&logo=Docker)](https://github.com/orgs/dot-base/packages)
 
 ### Requirements
 - [Docker Engine >= v1.13](https://www.docker.com/get-started)
