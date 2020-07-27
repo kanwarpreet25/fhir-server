@@ -1,4 +1,8 @@
-package ca.uhn.fhir.jpa.starter;
+package ca.uhn.fhir.jpa.starter; 
+
+import static org.apache.commons.lang3.StringUtils.defaultString;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.trim;
 
 import ca.uhn.fhir.context.ConfigurationException;
 import ca.uhn.fhir.context.FhirVersionEnum;
@@ -7,34 +11,33 @@ import ca.uhn.fhir.jpa.search.elastic.ElasticsearchHibernatePropertiesBuilder;
 import ca.uhn.fhir.rest.api.EncodingEnum;
 import ca.uhn.fhir.rest.server.ETagSupportEnum;
 import com.google.common.annotations.VisibleForTesting;
-import org.hibernate.search.elasticsearch.cfg.ElasticsearchIndexStatus;
-import org.hibernate.search.elasticsearch.cfg.IndexSchemaManagementStrategy;
-import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nonnull;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.Map;
 import java.util.stream.Collectors;
-
-import static org.apache.commons.lang3.StringUtils.defaultString;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static org.apache.commons.lang3.StringUtils.trim;
+import javax.annotation.Nonnull;
+import org.hibernate.search.elasticsearch.cfg.ElasticsearchIndexStatus;
+import org.hibernate.search.elasticsearch.cfg.IndexSchemaManagementStrategy;
+import org.jetbrains.annotations.NotNull;
 
 public class HapiProperties {
   static final String ENABLE_INDEX_MISSING_FIELDS = "enable_index_missing_fields";
-  static final String AUTO_CREATE_PLACEHOLDER_REFERENCE_TARGETS = "auto_create_placeholder_reference_targets";
-  static final String ENFORCE_REFERENTIAL_INTEGRITY_ON_WRITE = "enforce_referential_integrity_on_write";
-  static final String ENFORCE_REFERENTIAL_INTEGRITY_ON_DELETE = "enforce_referential_integrity_on_delete";
+  static final String AUTO_CREATE_PLACEHOLDER_REFERENCE_TARGETS =
+    "auto_create_placeholder_reference_targets";
+  static final String ENFORCE_REFERENTIAL_INTEGRITY_ON_WRITE =
+    "enforce_referential_integrity_on_write";
+  static final String ENFORCE_REFERENTIAL_INTEGRITY_ON_DELETE =
+    "enforce_referential_integrity_on_delete";
   static final String BINARY_STORAGE_ENABLED = "binary_storage.enabled";
   static final String ALLOW_EXTERNAL_REFERENCES = "allow_external_references";
   static final String ALLOW_MULTIPLE_DELETE = "allow_multiple_delete";
   static final String ALLOW_PLACEHOLDER_REFERENCES = "allow_placeholder_references";
-  static final String REUSE_CACHED_SEARCH_RESULTS_MILLIS = "reuse_cached_search_results_millis";
+  static final String REUSE_CACHED_SEARCH_RESULTS_MILLIS =
+    "reuse_cached_search_results_millis";
   static final String DATASOURCE_DRIVER = "datasource.driver";
   static final String DATASOURCE_MAX_POOL_SIZE = "datasource.max_pool_size";
   static final String DATASOURCE_PASSWORD = "datasource.password";
@@ -61,12 +64,14 @@ public class HapiProperties {
   static final String SUBSCRIPTION_WEBSOCKET_ENABLED = "subscription.websocket.enabled";
   static final String ALLOWED_BUNDLE_TYPES = "allowed_bundle_types";
   static final String TEST_PORT = "test.port";
-  static final String TESTER_CONFIG_REFUSE_TO_FETCH_THIRD_PARTY_URLS = "tester.config.refuse_to_fetch_third_party_urls";
+  static final String TESTER_CONFIG_REFUSE_TO_FETCH_THIRD_PARTY_URLS =
+    "tester.config.refuse_to_fetch_third_party_urls";
   static final String CORS_ENABLED = "cors.enabled";
   static final String CORS_ALLOWED_ORIGIN = "cors.allowed_origin";
   static final String CORS_ALLOW_CREDENTIALS = "cors.allowCredentials";
   static final String ALLOW_CONTAINS_SEARCHES = "allow_contains_searches";
-  static final String ALLOW_OVERRIDE_DEFAULT_SEARCH_PARAMS = "allow_override_default_search_params";
+  static final String ALLOW_OVERRIDE_DEFAULT_SEARCH_PARAMS =
+    "allow_override_default_search_params";
   static final String EMAIL_FROM = "email.from";
   static final String VALIDATE_REQUESTS_ENABLED = "validation.requests.enabled";
   static final String VALIDATE_RESPONSES_ENABLED = "validation.responses.enabled";
@@ -75,7 +80,8 @@ public class HapiProperties {
   static final String BULK_EXPORT_ENABLED = "bulk.export.enabled";
   static final String EXPIRE_SEARCH_RESULTS_AFTER_MINS = "retain_cached_searches_mins";
   static final String MAX_BINARY_SIZE = "max_binary_size";
-  static final String PARTITIONING_MULTITENANCY_ENABLED = "partitioning.multitenancy.enabled";
+  static final String PARTITIONING_MULTITENANCY_ENABLED =
+    "partitioning.multitenancy.enabled";
   static final String CLIENT_ID_STRATEGY = "daoconfig.client_id_strategy";
 
   private static Properties ourProperties;
@@ -106,13 +112,29 @@ public class HapiProperties {
 
     if (isElasticSearchEnabled()) {
       ElasticsearchHibernatePropertiesBuilder builder = new ElasticsearchHibernatePropertiesBuilder();
-      builder.setRequiredIndexStatus(getPropertyEnum("elasticsearch.required_index_status", ElasticsearchIndexStatus.class, ElasticsearchIndexStatus.YELLOW));
+      builder.setRequiredIndexStatus(
+        getPropertyEnum(
+          "elasticsearch.required_index_status",
+          ElasticsearchIndexStatus.class,
+          ElasticsearchIndexStatus.YELLOW
+        )
+      );
       builder.setRestUrl(getProperty("elasticsearch.rest_url"));
       builder.setUsername(getProperty("elasticsearch.username"));
       builder.setPassword(getProperty("elasticsearch.password"));
-      builder.setIndexSchemaManagementStrategy(getPropertyEnum("elasticsearch.schema_management_strategy", IndexSchemaManagementStrategy.class, IndexSchemaManagementStrategy.CREATE));
-      builder.setDebugRefreshAfterWrite(getPropertyBoolean("elasticsearch.debug.refresh_after_write", false));
-      builder.setDebugPrettyPrintJsonLog(getPropertyBoolean("elasticsearch.debug.pretty_print_json_log", false));
+      builder.setIndexSchemaManagementStrategy(
+        getPropertyEnum(
+          "elasticsearch.schema_management_strategy",
+          IndexSchemaManagementStrategy.class,
+          IndexSchemaManagementStrategy.CREATE
+        )
+      );
+      builder.setDebugRefreshAfterWrite(
+        getPropertyBoolean("elasticsearch.debug.refresh_after_write", false)
+      );
+      builder.setDebugPrettyPrintJsonLog(
+        getPropertyBoolean("elasticsearch.debug.pretty_print_json_log", false)
+      );
       builder.apply(retVal);
     }
 
@@ -132,7 +154,10 @@ public class HapiProperties {
   private static Properties loadProperties() {
     // Load the configurable properties file
     Properties properties;
-    try (InputStream in = HapiProperties.class.getClassLoader().getResourceAsStream(HAPI_PROPERTIES)) {
+    try (
+      InputStream in = HapiProperties.class.getClassLoader()
+        .getResourceAsStream(HAPI_PROPERTIES)
+    ) {
       properties = new Properties();
       properties.load(in);
     } catch (Exception e) {
@@ -143,10 +168,14 @@ public class HapiProperties {
     if (overrideProps != null) {
       properties.putAll(overrideProps);
     }
-    properties.putAll(System.getenv().entrySet()
-                                     .stream()
-                                     .filter(e -> e.getValue() != null && properties.containsKey(e.getKey()))
-                                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+    properties.putAll(
+      System
+        .getenv()
+        .entrySet()
+        .stream()
+        .filter(e -> e.getValue() != null && properties.containsKey(e.getKey()))
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
+    );
     return properties;
   }
 
@@ -164,7 +193,10 @@ public class HapiProperties {
         props.load(new FileInputStream(confFile));
         return props;
       } catch (Exception e) {
-        throw new ConfigurationException("Could not load HAPI properties file: " + confFile, e);
+        throw new ConfigurationException(
+          "Could not load HAPI properties file: " + confFile,
+          e
+        );
       }
     }
 
@@ -292,11 +324,17 @@ public class HapiProperties {
   }
 
   public static String getLoggerFormat() {
-    return HapiProperties.getProperty(LOGGER_FORMAT, "Path[${servletPath}] Source[${requestHeader.x-forwarded-for}] Operation[${operationType} ${operationName} ${idOrResourceName}] UA[${requestHeader.user-agent}] Params[${requestParameters}] ResponseEncoding[${responseEncodingNoDefault}]");
+    return HapiProperties.getProperty(
+      LOGGER_FORMAT,
+      "Path[${servletPath}] Source[${requestHeader.x-forwarded-for}] Operation[${operationType} ${operationName} ${idOrResourceName}] UA[${requestHeader.user-agent}] Params[${requestParameters}] ResponseEncoding[${responseEncodingNoDefault}]"
+    );
   }
 
   public static String getLoggerErrorFormat() {
-    return HapiProperties.getProperty(LOGGER_ERROR_FORMAT, "ERROR - ${requestVerb} ${requestUrl}");
+    return HapiProperties.getProperty(
+      LOGGER_ERROR_FORMAT,
+      "ERROR - ${requestVerb} ${requestUrl}"
+    );
   }
 
   public static Boolean getLoggerLogExceptions() {
@@ -304,7 +342,10 @@ public class HapiProperties {
   }
 
   public static String getDataSourceDriver() {
-    return HapiProperties.getProperty(DATASOURCE_DRIVER, "org.apache.derby.jdbc.EmbeddedDriver");
+    return HapiProperties.getProperty(
+      DATASOURCE_DRIVER,
+      "org.apache.derby.jdbc.EmbeddedDriver"
+    );
   }
 
   public static Integer getDataSourceMaxPoolSize() {
@@ -312,7 +353,10 @@ public class HapiProperties {
   }
 
   public static String getDataSourceUrl() {
-    return HapiProperties.getProperty(DATASOURCE_URL, "jdbc:derby:directory:target/jpaserver_derby_files;create=true");
+    return HapiProperties.getProperty(
+      DATASOURCE_URL,
+      "jdbc:derby:directory:target/jpaserver_derby_files;create=true"
+    );
   }
 
   public static String getDataSourceUsername() {
@@ -344,7 +388,10 @@ public class HapiProperties {
   }
 
   public static Boolean getTesterConfigRefustToFetchThirdPartyUrls() {
-    return HapiProperties.getBooleanProperty(TESTER_CONFIG_REFUSE_TO_FETCH_THIRD_PARTY_URLS, false);
+    return HapiProperties.getBooleanProperty(
+      TESTER_CONFIG_REFUSE_TO_FETCH_THIRD_PARTY_URLS,
+      false
+    );
   }
 
   public static Boolean getCorsEnabled() {
@@ -362,7 +409,8 @@ public class HapiProperties {
   @Nonnull
   public static Set<String> getSupportedResourceTypes() {
     String[] types = defaultString(getProperty("supported_resource_types")).split(",");
-    return Arrays.stream(types)
+    return Arrays
+      .stream(types)
       .map(t -> trim(t))
       .filter(t -> isNotBlank(t))
       .collect(Collectors.toSet());
@@ -442,7 +490,10 @@ public class HapiProperties {
   }
 
   public static Long getReuseCachedSearchResultsMillis() {
-    String value = HapiProperties.getProperty(REUSE_CACHED_SEARCH_RESULTS_MILLIS, "60000");
+    String value = HapiProperties.getProperty(
+      REUSE_CACHED_SEARCH_RESULTS_MILLIS,
+      "60000"
+    );
     return Long.valueOf(value);
   }
 
@@ -472,15 +523,24 @@ public class HapiProperties {
   }
 
   public static boolean getEnforceReferentialIntegrityOnDelete() {
-    return HapiProperties.getBooleanProperty(ENFORCE_REFERENTIAL_INTEGRITY_ON_DELETE, true);
+    return HapiProperties.getBooleanProperty(
+      ENFORCE_REFERENTIAL_INTEGRITY_ON_DELETE,
+      true
+    );
   }
 
   public static boolean getEnforceReferentialIntegrityOnWrite() {
-    return HapiProperties.getBooleanProperty(ENFORCE_REFERENTIAL_INTEGRITY_ON_WRITE, true);
+    return HapiProperties.getBooleanProperty(
+      ENFORCE_REFERENTIAL_INTEGRITY_ON_WRITE,
+      true
+    );
   }
 
   public static boolean getAutoCreatePlaceholderReferenceTargets() {
-    return HapiProperties.getBooleanProperty(AUTO_CREATE_PLACEHOLDER_REFERENCE_TARGETS, true);
+    return HapiProperties.getBooleanProperty(
+      AUTO_CREATE_PLACEHOLDER_REFERENCE_TARGETS,
+      true
+    );
   }
 
   public static boolean getEnableIndexMissingFields() {
@@ -491,12 +551,19 @@ public class HapiProperties {
     return getIntegerProperty(MAX_BINARY_SIZE, null);
   }
 
-  private static boolean getPropertyBoolean(String thePropertyName, boolean theDefaultValue) {
+  private static boolean getPropertyBoolean(
+    String thePropertyName,
+    boolean theDefaultValue
+  ) {
     String value = getProperty(thePropertyName, Boolean.toString(theDefaultValue));
     return Boolean.parseBoolean(value);
   }
 
-  private static <T extends Enum> T getPropertyEnum(String thePropertyName, Class<T> theEnumType, T theDefaultValue) {
+  private static <T extends Enum> T getPropertyEnum(
+    String thePropertyName,
+    Class<T> theEnumType,
+    T theDefaultValue
+  ) {
     String value = getProperty(thePropertyName, theDefaultValue.name());
     return (T) Enum.valueOf(theEnumType, value);
   }
@@ -513,4 +580,3 @@ public class HapiProperties {
     return HapiProperties.getBooleanProperty(PARTITIONING_MULTITENANCY_ENABLED, false);
   }
 }
-

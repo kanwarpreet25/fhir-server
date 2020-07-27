@@ -254,7 +254,7 @@
 
     <packaging>war</packaging>
 
-    <name>HAPI FHIR JPA Server - Starter Project</name>
+    <name>FHIR Server</name>
 
     <repositories>
         <repository>
@@ -265,6 +265,11 @@
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
     </repositories>
+
+    <properties>
+        <!-- By default just re-write code with prettier -->
+        <plugin.prettier.goal>write</plugin.prettier.goal>
+    </properties>
 
     <build>
 
@@ -423,6 +428,28 @@
                         <ignoredResourcePattern>.*\.html$</ignoredResourcePattern>
                     </ignoredResourcePatterns>
                 </configuration>
+            </plugin>
+
+            <!-- Prettier plugin for code formatting -->
+            <plugin>
+                <groupId>com.hubspot.maven.plugins</groupId>
+                <artifactId>prettier-maven-plugin</artifactId>
+                <version>0.10</version>
+                <configuration>
+                    <printWidth>90</printWidth>
+                    <tabWidth>2</tabWidth>
+                    <useTabs>false</useTabs>
+                    <ignoreConfigFile>true</ignoreConfigFile>
+                    <ignoreEditorConfig>true</ignoreEditorConfig>
+                </configuration>
+                <executions>
+                    <execution>
+                    <phase>validate</phase>
+                    <goals>
+                        <goal>${plugin.prettier.goal}</goal>
+                    </goals>
+                    </execution>
+                </executions>
             </plugin>
 
 

@@ -1,11 +1,10 @@
 package ca.uhn.fhir.jpa.starter;
 
+import ca.uhn.fhir.to.FhirTesterMvcConfig;
+import ca.uhn.fhir.to.TesterConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-
-import ca.uhn.fhir.to.FhirTesterMvcConfig;
-import ca.uhn.fhir.to.TesterConfig;
 
 //@formatter:off
 /**
