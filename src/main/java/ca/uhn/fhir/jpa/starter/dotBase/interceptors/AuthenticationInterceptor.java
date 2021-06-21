@@ -53,10 +53,11 @@ public class AuthenticationInterceptor {
       Claims jwt = Authentication.verifyAndDecodeJWT(theRequestDetails);
       return getUsername(jwt);
     }
-    if (theRequestDetails.getHeader("X-Forwarded-User") != null) {
-      return theRequestDetails.getHeader("X-Forwarded-User");
-    }
-    throw new AuthenticationException("Authentication failed");
+    String xForwardedUser = theRequestDetails.getHeader("X-Forwarded-User");
+    if (xForwardedUser == null || xForwardedUser.equals("")) throw new AuthenticationException(
+      "Authentication failed"
+    );
+    return xForwardedUser;
   }
 
   private String getUsername(Claims jwt) {
